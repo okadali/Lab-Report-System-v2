@@ -1,0 +1,4 @@
+package com.okadali.labreportsystemv2backend.models;
+
+public class User {
+}
