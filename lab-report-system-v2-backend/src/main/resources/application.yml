@@ -1,3 +1,8 @@
+lab-report-system-v2-backend:
+  app:
+    secret: 0654fe0f97d3d0886a0145f9b97c5088cfc16b1337aab4b65291c0c1e259570e
+  expires:
+    in: 3600000
 server:
   port: 8081
   error:
