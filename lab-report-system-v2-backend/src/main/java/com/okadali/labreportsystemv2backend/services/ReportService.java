@@ -2,7 +2,7 @@ package com.okadali.labreportsystemv2backend.services;
 
 import com.okadali.labreportsystemv2backend.dto.requests.ReportCreateRequest;
 import com.okadali.labreportsystemv2backend.dto.responses.ReportResponse;
-import com.okadali.labreportsystemv2backend.exceptions.UserNotFoundException;
+import com.okadali.labreportsystemv2backend.exceptions.UserWrongCredsException;
 import com.okadali.labreportsystemv2backend.models.Report;
 import com.okadali.labreportsystemv2backend.models.User;
 import com.okadali.labreportsystemv2backend.repositories.ReportRepository;
@@ -33,7 +33,7 @@ public class ReportService {
     public ReportResponse createOneReport(ReportCreateRequest request) {
         Optional<User> user = userRepository.findById(request.getUser_id());
         if(!user.isPresent()) {
-            throw new UserNotFoundException("User with the id:"+request.getUser_id()+" not found");
+            throw new UserWrongCredsException("User with the id:"+request.getUser_id()+" not found");
         }
 
         Report report = Report.builder()

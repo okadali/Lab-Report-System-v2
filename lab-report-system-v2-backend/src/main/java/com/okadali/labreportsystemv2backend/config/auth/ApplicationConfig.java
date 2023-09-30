@@ -1,6 +1,6 @@
 package com.okadali.labreportsystemv2backend.config.auth;
 
-import com.okadali.labreportsystemv2backend.exceptions.UserNotFoundException;
+import com.okadali.labreportsystemv2backend.exceptions.UserWrongCredsException;
 import com.okadali.labreportsystemv2backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> repository.findByHospital_id(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found with this hospital id"));
+        return username -> repository.findByHospitalId(username)
+                .orElseThrow(() -> new UserWrongCredsException("User not found with this hospital id"));
     }
 
     @Bean

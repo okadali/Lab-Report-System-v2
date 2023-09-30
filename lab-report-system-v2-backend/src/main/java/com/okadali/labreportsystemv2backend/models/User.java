@@ -23,7 +23,7 @@ public class User implements UserDetails {
     private int id;
     private String name;
     private String surname;
-    private String hospital_id;
+    private String hospitalId;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,7 +40,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return hospital_id;
+        return hospitalId;
     }
 
     @Override
