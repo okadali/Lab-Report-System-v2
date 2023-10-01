@@ -1,6 +1,7 @@
 package com.okadali.labreportsystemv2backend.config.auth;
 
 import com.okadali.labreportsystemv2backend.services.JwtService;
+import com.okadali.labreportsystemv2backend.utils.TokenHelpers;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        jwt = authHeader.substring(7);
+        jwt = TokenHelpers.getToken(authHeader);
         userEmail = jwtService.extractUsername(jwt);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);

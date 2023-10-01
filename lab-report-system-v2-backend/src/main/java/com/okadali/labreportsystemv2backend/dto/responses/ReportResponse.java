@@ -29,6 +29,6 @@ public class ReportResponse {
         this.title = report.getTitle();
         this.details = report.getDetails();
         this.creationDate = report.getCreationDate();
-        this.user_name = report.getUser().getName();
+        this.user_name = report.getUser().getHospitalId();
     }
 }
