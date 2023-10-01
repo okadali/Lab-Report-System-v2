@@ -19,6 +19,7 @@ public enum Role {
                     ADMIN_DELETE
             )
     );
+
     @Getter
     private final Set<Permission> permissions;
     public List<SimpleGrantedAuthority> getAuthorities() {
