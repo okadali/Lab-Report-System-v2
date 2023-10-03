@@ -10,13 +10,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.okadali.labreportsystemv2backend.enums.Permission.ADMIN_DELETE;
+import static com.okadali.labreportsystemv2backend.enums.Permission.ADMIN_UPDATE;
 
 @RequiredArgsConstructor
 public enum Role {
     USER(Collections.emptySet()),
     ADMIN(
             Set.of(
-                    ADMIN_DELETE
+                    ADMIN_DELETE,
+                    ADMIN_UPDATE
             )
     );
 

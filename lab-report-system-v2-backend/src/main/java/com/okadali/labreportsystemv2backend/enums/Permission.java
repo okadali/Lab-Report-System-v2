@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Permission {
-    ADMIN_DELETE("admin:delete");
+    ADMIN_DELETE("admin:delete"),
+    ADMIN_UPDATE("admin:update");
 
     @Getter
     private final String permission;
