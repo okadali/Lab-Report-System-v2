@@ -3,17 +3,14 @@ package com.okadali.labreportsystemv2backend.controllers;
 import com.okadali.labreportsystemv2backend.dto.other.ResponseData;
 import com.okadali.labreportsystemv2backend.dto.requests.ReportCreateRequest;
 import com.okadali.labreportsystemv2backend.dto.requests.ReportUpdateRequest;
-import com.okadali.labreportsystemv2backend.dto.responses.ReportResponse;
-import com.okadali.labreportsystemv2backend.models.Report;
 import com.okadali.labreportsystemv2backend.services.ReportService;
-import com.okadali.labreportsystemv2backend.utils.TokenHelpers;
+import com.okadali.labreportsystemv2backend.utils.TokenUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,7 +46,7 @@ public class ReportController {
 
     @PostMapping
     public ResponseEntity<ResponseData> createOneReport(@RequestBody ReportCreateRequest request, @RequestHeader("Authorization") String token) {
-        request.setToken(TokenHelpers.getToken(token));
+        request.setToken(TokenUtils.getToken(token));
         return reportService.createOneReport(request);
     }
 

@@ -20,6 +20,7 @@ public class ReportResponse {
     String details;
     Date creationDate;
     String user_name;
+    String imageDataCode;
 
     public ReportResponse(Report report) {
         this.id = report.getId();
@@ -30,5 +31,6 @@ public class ReportResponse {
         this.details = report.getDetails();
         this.creationDate = report.getCreationDate();
         this.user_name = report.getUser().getHospitalId();
+        this.imageDataCode = report.getImageData().getCode();
     }
 }

@@ -5,10 +5,13 @@ import com.okadali.labreportsystemv2backend.dto.other.ResponseData;
 import com.okadali.labreportsystemv2backend.dto.requests.ReportCreateRequest;
 import com.okadali.labreportsystemv2backend.dto.requests.ReportUpdateRequest;
 import com.okadali.labreportsystemv2backend.dto.responses.ReportResponse;
+import com.okadali.labreportsystemv2backend.exceptions.FileCodeNotFoundException;
 import com.okadali.labreportsystemv2backend.exceptions.ReportNotFoundException;
+import com.okadali.labreportsystemv2backend.models.ImageData;
 import com.okadali.labreportsystemv2backend.models.Report;
 import com.okadali.labreportsystemv2backend.models.User;
 import com.okadali.labreportsystemv2backend.repositories.ReportRepository;
+import com.okadali.labreportsystemv2backend.repositories.StorageRepository;
 import com.okadali.labreportsystemv2backend.repositories.UserRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
@@ -31,18 +34,26 @@ public class ReportService {
 
     private  ReportRepository repository;
     private UserRepository userRepository;
+
+    private StorageRepository storageRepository;
     private JwtService jwtService;
 
-    public ReportService(ReportRepository repository,UserRepository userRepository,JwtService jwtService) {
+    public ReportService(ReportRepository repository,UserRepository userRepository,JwtService jwtService, StorageRepository storageRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.storageRepository = storageRepository;
     }
 
 
     public ResponseEntity<ResponseData> createOneReport(ReportCreateRequest request) {
         String username = jwtService.extractUsername(request.getToken());
         Optional<User> user = userRepository.findByHospitalId(username);
+        Optional<ImageData> imageData = storageRepository.findByCode(request.getImageDataCode());
+        if(!imageData.isPresent()) {
+            throw new FileCodeNotFoundException("File code: "+request.getImageDataCode()+" not found");
+        }
+
 
         Report report = Report.builder()
                 .name(request.getName())
@@ -50,6 +61,7 @@ public class ReportService {
                 .tc_id(request.getTc_id())
                 .title(request.getTitle())
                 .details(request.getDetails())
+                .imageData(imageData.get())
                 .creationDate(new Date())
                 .user(user.get())
                 .build();
