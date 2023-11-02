@@ -133,7 +133,7 @@ public class ReportService {
                 .map(report -> new ReportResponse(report))
                 .collect(Collectors.toList());
 
-        PaginationWrapper paginationWrapper = new PaginationWrapper(reportPage.getTotalPages()-1,pageable.getPageNumber(),pageable.getPageSize(),reportResponses);
+        PaginationWrapper paginationWrapper = new PaginationWrapper(reportPage.getTotalPages()-1,pageable.getPageNumber(),reportResponses.size(),reportResponses);
         ResponseData responseData = new ResponseData(true,"Reports fetched successfully",paginationWrapper);
         ResponseEntity responseEntity = new ResponseEntity(responseData,HttpStatus.OK);
 
