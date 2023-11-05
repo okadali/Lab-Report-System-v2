@@ -1,15 +1,11 @@
-import { Button } from "reactstrap";
-
+import { Routes,Route } from "react-router-dom";
+import LoginPage from "./pages/login";
 
 function App() {
-  return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">
-        Hello World!
-      </h1>
-      <Button color="danger" >Danger!</Button>
-    </div>
-  );
+  return <Routes>
+    <Route path="/" element={<LoginPage/>}/>
+
+  </Routes>
 }
 
 export default App;
