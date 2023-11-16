@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Input, Label, Row } from "reactstrap";
+import { _getReports } from "../services/report";
 
 const SearchBar = () => {
   const [searchRequest, setSearchRequest] = useState({
@@ -13,8 +14,15 @@ const SearchBar = () => {
     page: 0,
   });
 
-  const onSearchButtonClick = () => {
-    console.log(searchRequest);
+  const onSearchButtonClick = async() => {
+    const response = await _getReports(searchRequest)
+    try {
+      console.log({response});
+    }
+    catch(error) {
+      console.log({error});
+    }
+    
   };
 
   const onInputChange = (e) => {

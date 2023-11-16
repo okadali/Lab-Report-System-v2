@@ -1,14 +1,13 @@
 import { Button, Col, Input, Label, Row } from "reactstrap";
 import { useEffect, useState } from "react";
 import { _login } from "../services/auth";
-import { useGlobalContext } from "../context/context";
 
 const LoginPage = () => {
-  const {setAuth,auth} = useGlobalContext();
 
   useEffect(() => {
+    const auth = localStorage.getItem("auth")
     if(auth) window.location.href = "/reports";
-  },[auth])
+  },[])
 
   const loginObject = {hospitalId:"",password:""}
 
@@ -22,7 +21,7 @@ const LoginPage = () => {
     try {
       const response = await _login(loginRequest);
       setLoginRequest(loginObject);
-      setAuth(response.data.token); 
+      localStorage.setItem("auth",response.data.token);
     } catch(e) {
       alert("invalid creds");
     }
