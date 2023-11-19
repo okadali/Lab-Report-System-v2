@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Input, Label, Row } from "reactstrap";
 import { _getReports } from "../services/report";
+import { useGlobalContext } from "../context/context";
 
 const SearchBar = () => {
+  const {refresh,setRefresh,setPagination,setReports,pagination} = useGlobalContext();
+
   const [searchRequest, setSearchRequest] = useState({
     name: "",
     surname: "",
@@ -10,20 +13,32 @@ const SearchBar = () => {
     userName: "",
     userSurname: "",
     sortByDate: false,
-    size: 10,
-    page: 0,
   });
 
   const onSearchButtonClick = async() => {
-    const response = await _getReports(searchRequest)
-    try {
-      console.log({response});
-    }
-    catch(error) {
-      console.log({error});
-    }
-    
+    refreshReports();
   };
+
+  useEffect(() => {
+    if(refresh) refreshReports();
+  },[refresh])
+
+  const refreshReports = async () => {
+    try {
+      const response = await _getReports(searchRequest,pagination.page);
+      if(!response.success) {alert("Error occured while fetching reports"); return;}
+      console.log({response});
+      setPagination({
+        page:response.data.currentPage,
+        totalPage:response.data.totalPages
+      })
+      setReports(response.data.content);
+      setRefresh(false);
+    }
+    catch (error) {
+      alert("Error occured while fetching reports");
+    }
+  }
 
   const onInputChange = (e) => {
     setSearchRequest({ ...searchRequest, [e.target.id]: e.target.value });

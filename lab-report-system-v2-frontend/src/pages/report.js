@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useGlobalContext } from "../context/context";
+import { useState } from "react";
 import SearchBar from "../components/search";
 import Content from "../components/content";
 import { Button } from "reactstrap";
 import CreateModal from "../components/createModal";
+import PaginationHolder from "../components/pagination";
 
 const ReportPage = () => {
 
@@ -17,6 +17,7 @@ const ReportPage = () => {
       <SearchBar/>
       <Button className="mt-[40px]" color="primary" onClick={onCreateButtonClick}>Create Report</Button>
       <Content/>
+      <PaginationHolder/>
     </div>
   );
 };

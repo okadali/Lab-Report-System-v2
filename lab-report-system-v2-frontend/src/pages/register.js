@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Col, Input, Label, Row } from "reactstrap";
 import { _register } from "../services/auth";
-import { useGlobalContext } from "../context/context";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
-  const { setAuth,auth } = useGlobalContext();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(auth) window.location.href = "/reports";
-  },[auth])
+    const auth = localStorage.getItem("auth")
+    if(auth) navigate("/reports")
+  },[])
 
   const registerObject = {
     name: "",
@@ -28,7 +30,9 @@ const RegisterPage = () => {
     try {
       const response = await _register(registerRequest);
       setRegisterRequest(registerObject);
-      setAuth(response.data.token)
+      console.log([{response}]);
+      localStorage.setItem("auth",response.data.token);
+      navigate("/reports");
     } catch (e) {
       alert(e.response.data.message);
     }

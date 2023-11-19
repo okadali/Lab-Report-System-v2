@@ -1,12 +1,15 @@
 import { Button, Col, Input, Label, Row } from "reactstrap";
 import { useEffect, useState } from "react";
 import { _login } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const auth = localStorage.getItem("auth")
-    if(auth) window.location.href = "/reports";
+    if(auth) navigate("/reports");
   },[])
 
   const loginObject = {hospitalId:"",password:""}
@@ -22,6 +25,7 @@ const LoginPage = () => {
       const response = await _login(loginRequest);
       setLoginRequest(loginObject);
       localStorage.setItem("auth",response.data.token);
+      navigate("/reports");
     } catch(e) {
       alert("invalid creds");
     }

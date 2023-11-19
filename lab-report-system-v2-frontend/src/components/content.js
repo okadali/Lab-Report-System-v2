@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import { PLACEHOLDER_DATA } from "../data/placeholder_data";
 import { Button, Table } from "reactstrap";
 import EditModal from "./EditModal";
+import { _deleteReport } from "../services/report";
+import { useGlobalContext } from "../context/context";
+import { getProperYear } from "../helper/getProperYear";
 
 
 const Content = () => {
-  const [reports, setReports] = useState([]);
+  const {reports,setRefresh} = useGlobalContext();
 
   const [editModal, setEditModal] = useState(false);
-
-
 
   const [selectedReport, setSelectedReport] = useState({});
 
   useEffect(() => {
-    const loadData = async () => {
-      setReports(PLACEHOLDER_DATA);
-    };
-    loadData();
+    setRefresh(true);
   }, []);
 
   const onEditClick = (report) => {
@@ -25,10 +22,14 @@ const Content = () => {
     setEditModal(true);
   };
 
-  const onDeleteClick = (report) => {
-    console.log(report.id);
-
-    // const response = _deleteReport(report.id);
+  const onDeleteClick = async (report) => {
+    try {
+      const response = await _deleteReport(report.id);
+      if(response.success) setRefresh(true);
+      else throw new Error();
+    } catch(e) {
+      alert("You're not authorized to do that");
+    }
   };
 
   return (
@@ -49,13 +50,15 @@ const Content = () => {
             <th>Title</th>
             <th>Details</th>
             <th>Date</th>
-            <th>Doctor Name</th>
+            <th>Labor. Name</th>
+            <th>Labor. Surname</th>
             <th>Report</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {reports.map((item) => {
+            const imageUrl = `http://localhost:8081/api/v1/file/${item.imageDataCode}?id =${Date.now().toString()}`;
             return (
               <tr key={item.id}>
                 <th>{item.id}</th>
@@ -64,10 +67,13 @@ const Content = () => {
                 <th>{item.tc_id}</th>
                 <th>{item.title}</th>
                 <th>{item.details}</th>
-                <th>{item.date.toString()}</th>
-                <th>{item.user_name}</th>
+                <th>{getProperYear(item.creationDate)}</th>
+                <th>{item.doctorName}</th>
+                <th>{item.doctorSurname}</th>
                 <th>
-                  <img src={item.imageDataCode} width={50} height={50} alt="" />
+                  <a href={imageUrl} target="_blank">
+                    <img src={imageUrl} width={30} height={30} alt="" />
+                  </a>
                 </th>
                 <th>
                   <div className="flex">

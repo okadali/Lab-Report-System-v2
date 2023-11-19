@@ -2,6 +2,9 @@ import { Routes,Route } from "react-router-dom";
 import LoginPage from "./pages/login";
 import ReportPage from "./pages/report";
 import RegisterPage from "./pages/register";
+import { useEffect } from "react";
+
+localStorage.clear();
 
 function App() {
   return <Routes>

@@ -19,7 +19,8 @@ public class ReportResponse {
     String title;
     String details;
     Date creationDate;
-    String user_name;
+    String doctorName;
+    String doctorSurname;
     String imageDataCode;
 
     public ReportResponse(Report report) {
@@ -30,7 +31,8 @@ public class ReportResponse {
         this.title = report.getTitle();
         this.details = report.getDetails();
         this.creationDate = report.getCreationDate();
-        this.user_name = report.getUser().getHospitalId();
+        this.doctorName = report.getUser().getName();
+        this.doctorSurname = report.getUser().getSurname();
         this.imageDataCode = report.getImageData().getCode();
     }
 }

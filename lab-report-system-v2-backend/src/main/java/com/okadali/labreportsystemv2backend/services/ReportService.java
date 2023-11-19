@@ -104,7 +104,7 @@ public class ReportService {
     public ResponseEntity<ResponseData> getAllReports(
             Optional<String> name,
             Optional<String> surname,
-            Optional<String> tcId,
+            Optional<String> tc_id,
             Optional<String> userName,
             Optional<String> userSurname,
             Optional<Boolean> sortByDate,
@@ -115,9 +115,9 @@ public class ReportService {
 
             name.ifPresent(n -> predicates.add(criteriaBuilder.equal(root.get("name"), n)));
             surname.ifPresent(s -> predicates.add(criteriaBuilder.equal(root.get("surname"), s)));
-            tcId.ifPresent(id -> predicates.add(criteriaBuilder.equal(root.get("tcId"), id)));
-            userName.ifPresent(uName -> predicates.add(criteriaBuilder.equal(root.get("userName"), uName)));
-            userSurname.ifPresent(uSurname -> predicates.add(criteriaBuilder.equal(root.get("userSurname"), uSurname)));
+            tc_id.ifPresent(id -> predicates.add(criteriaBuilder.equal(root.get("tc_id"), id)));
+            userName.ifPresent(uName -> predicates.add(criteriaBuilder.equal(root.get("user").get("name"), uName)));
+            userSurname.ifPresent(uSurname -> predicates.add(criteriaBuilder.equal(root.get("user").get("surname"), uSurname)));
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
